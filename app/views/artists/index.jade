@@ -1,0 +1,21 @@
+extends ../shared/template
+
+block content
+  h1 Artist List
+
+  .css3droppanel
+    input(type='checkbox' id='paneltoggle')
+    label(for='paneltoggle' title='Click to open Panel')
+    .content
+      h2 Upload A New Artist
+      form(method='POST', action='/artists', enctype='multipart/form-data')
+        input.mac(type='text', name='name' autofocus=true, placeholder='Artist Name')
+        input(type='file', name='photo')
+        button.modern.socle Add
+
+  #artistList
+    each artist in artists
+      .holder
+        .artist
+        a(href='/artists/#{artist._id}')= artist.name
+        img.cover(src='/img/#{artist.folder}/#{artist.fileName}')

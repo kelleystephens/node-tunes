@@ -1,0 +1,11 @@
+extends ../shared/template
+
+block content
+  h1= artist.name
+  img(src='/img/#{artist.folder}/#{artist.fileName}')
+
+//- #albumShow
+//-   each song in songs
+//-     .holder
+//-       .title= song.name
+//-       audio.audio(src='/audios/#{artist.folder}/#{album.folder}/#{song.fileName}', controls=true)

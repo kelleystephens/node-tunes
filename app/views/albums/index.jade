@@ -1,0 +1,21 @@
+extends ../shared/template
+
+block content
+  h1 Album List
+
+  .css3droppanel
+    input(type='checkbox' id='paneltoggle')
+    label(for='paneltoggle' title='Click to open Panel')
+    .content
+      h2 Upload A New Album
+      form(method='POST', action='/albums', enctype='multipart/form-data')
+        input.mac(type='text', name='name' autofocus=true, placeholder='Album Title')
+        input(type='file', name='cover')
+        button.modern.socle Add
+
+  #albumList
+    each album in albums
+      .holder
+        .album
+          a(href='/albums/#{album._id}')= album.name
+        img.cover(src='/img/#{album.folder}/#{album.fileName}')
