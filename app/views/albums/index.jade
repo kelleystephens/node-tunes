@@ -16,6 +16,6 @@ block content
   #albumList
     each album in albums
       .holder
-        .album
-          a(href='/albums/#{album._id}')= album.name
-        img.cover(src='/img/#{album.folder}/#{album.fileName}')
+        a(href='/albums/#{album._id}')= album.name
+        .artist(style='background-image: url("/img/#{album.folder}/#{album.fileName}")')
+        .border

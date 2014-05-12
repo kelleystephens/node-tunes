@@ -10,20 +10,20 @@ block content
       h2 Upload A New Song
       form(method='POST', action='/songs', enctype='multipart/form-data')
         input(type='text', name='name', autofocus=true, placeholder='Song Name')
-        select(name='artist')
+        select(name='artistId')
           option Artist
             each artist in artists
-              option= artist.name
-        select(name='album')
+              option(value=artist._id)= artist.name
+        select(name='albumId')
           option Album
             each album in albums
-              option= album.name
+              option(value=album._id)= album.name
         input(type='text', name='genres', placeholder='Genres')
-        input(type='file', name='audio')
+        input(type='file', name='file')
         button Add Song
 
   #songList
     each song in songs
       .holder
         .song= song.name
-        audio.audio(src='/audios/#{song.folder}/#{song.name}', controls=true)
+        audio.audio(src="#{song.file}", controls=true)

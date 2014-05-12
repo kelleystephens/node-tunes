@@ -1,10 +1,12 @@
 'use strict';
 
 var albums = global.nss.db.collection('albums');
-// var songs = global.nss.db.collection('songs');
+var songs = global.nss.db.collection('songs');
+var artists = global.nss.db.collection('artists');
 var multiparty = require('multiparty');
 var fs = require('fs');
-// var Mongo = require('mongodb');
+var Mongo = require('mongodb');
+var _  = require('lodash');
 
 exports.index = (req, res)=>{
   albums.find().toArray((e,r)=>{
@@ -32,14 +34,17 @@ exports.create = (req, res)=>{
   });
 };
 
-// exports.show = (req, res)=>{
-//   var _id = Mongo.ObjectID(req.params.id);
-//   var
-//
-//   songs.find({albumId:_id}(e, sngs)=>{
-//     albums.findOne({_id:_id}, (e, album)=>{
-//       res.render('albums/show', {album: album, songs: sngs, title: `${album.name}`});
-//     });
-//   });
-//
-// };
+exports.show = (req, res)=>{
+  var _id = Mongo.ObjectID(req.params.id);
+    albums.find().toArray((e, albums)=>{
+      songs.find({albumId: _id}).toArray((e, sngs)=>{
+        console.log(sngs);
+        sngs = sngs.map(s=>{
+          var al = _(albums).find(a=>a._id.toString() === s.albumId.toString());
+          s.album = al;
+          return s;
+        });
+        res.render('albums/show', {songs: sngs, title: 'Songs By Album'});
+      });
+    });
+};

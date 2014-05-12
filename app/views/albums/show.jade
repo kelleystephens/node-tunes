@@ -1,11 +1,12 @@
 extends ../shared/template
 
 block content
-  h1= album.name
-  img(src='/img/#{album.folder}/#{album.fileName}')
+  h1 #{songs[0].album.name}
+  img.show(src='/img/#{songs[0].album.folder}/#{songs[0].album.fileName}')
+  .border
 
-  //- #albumShow
-  //-   each song in songs
-  //-     .holder
-  //-       .title= song.name
-  //-       audio.audio(src='/audios/#{artist.folder}/#{album.folder}/#{song.fileName}', controls=true)
+  #albumShow
+    each song in songs
+      .holder
+        .title= song.name
+        audio.audio(src='/audios/#{songs[0].file}', controls=true)

@@ -16,6 +16,6 @@ block content
   #artistList
     each artist in artists
       .holder
-        .artist
         a(href='/artists/#{artist._id}')= artist.name
-        img.cover(src='/img/#{artist.folder}/#{artist.fileName}')
+        .artist(style='background-image: url("/img/#{artist.folder}/#{artist.fileName}")')
+        .border

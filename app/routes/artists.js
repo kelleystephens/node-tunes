@@ -1,13 +1,14 @@
 'use strict';
 
 var artists = global.nss.db.collection('artists');
+var songs = global.nss.db.collection('songs');
 var multiparty = require('multiparty');
 var fs = require('fs');
-// var Mongo = require('mongodb');
+var Mongo = require('mongodb');
+var _  = require('lodash');
 
 exports.index = (req, res)=>{
   artists.find().toArray((e,r)=>{
-    console.log(r);
     res.render('artists/index', {artists: r, title: 'artist List'});
   });
 };
@@ -32,10 +33,16 @@ exports.create = (req, res)=>{
   });
 };
 
-// exports.show = (req, res)=>{
-//   var _id = Mongo.ObjectID(req.params.id);
-//
-//   artists.findOne({_id:_id}, (e, artist)=>{
-//     res.render('artists/show', {artist: artist, title: `${artist.name}`});
-//   });
-// };
+exports.show = (req, res)=>{
+  var _id = Mongo.ObjectID(req.params.id);
+  artists.find().toArray((e, artists)=>{
+    songs.find({artistId: _id}).toArray((e, sngs)=>{
+      sngs = sngs.map(s=>{
+        var ar = _(artists).find(a=>a._id.toString() === s.artistId.toString());
+        s.artist = ar;
+        return s;
+      });
+      res.render('artists/show', {songs: sngs, title: 'Songs By Artist'});
+    });
+  });
+};
